@@ -28,7 +28,7 @@ const Conversation = require("./schemas/Conversation");
 const Message = require("./schemas/message");
 const { useNavigate } = require("react-router-dom");
 const { response } = require("express");
-const base_url = process.env.BASE_URL
+const base_url = process.env.PORT || 5000
 
 server.listen(base_url, () => {
   console.log("hello");
