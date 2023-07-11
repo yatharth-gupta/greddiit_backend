@@ -234,7 +234,7 @@ router.post("/signup", async (request, response) => {
   console.log(request.body);
   const password = await bcrypt.hash(plainTextPassword, salt);
   console.log(password);
-  try {
+  // try {
     // storing our user data into database
     const Person = new person({
       first_name: first_name,
@@ -249,20 +249,13 @@ router.post("/signup", async (request, response) => {
       username: username,
       email: email,
     });
-    Person.save();
-    Follow.save((err, user1) => {
-      if (err) return console.error(err);
-      response.json(user1);
-    });
-    // return response.redirect("/");
-  } catch (error) {
-    // console.log(JSON.stringify(error));
-    // if (error.code === 11000) {
-    //   return res.send({ status: "error", error: "email already exists" });
-    // }
-    // throw error;
-    console.log(error);
-  }
+    try {
+      const p = await Person.save();
+      const f = await Follow.save();
+      response.status(200).json(p);
+    } catch (err) {
+      response.status(500).json(err);
+    }
 });
 
 router.post("/posts", authorization, async (request, response) => {
